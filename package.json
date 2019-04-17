@@ -35,7 +35,8 @@
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
     "type-graphql": "^0.17.1",
-    "typeorm": "^0.2.16"
+    "typeorm": "^0.2.16",
+    "typeorm-seeding": "^1.0.0-beta.6"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
