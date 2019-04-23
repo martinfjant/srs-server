@@ -17,22 +17,37 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:sync": "ts-node ./node_modules/.bin/typeorm schema:sync -c development",
+    "db:seed": "ts-node -r tsconfig-paths/register seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^6.0.0",
-    "@nestjs/platform-express": "^6.0.0", 
+    "@nestjs/graphql": "^6.0.5",
+    "@nestjs/platform-express": "^6.0.0",
+    "@nestjs/typeorm": "^6.0.0",
+    "apollo-server-express": "^2.4.8",
+    "class-transformer": "^0.2.0",
+    "graphql": "^14.2.1",
+    "graphql-tools": "^4.0.4",
+    "pg": "^7.9.0",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.3.3",
+    "type-graphql": "^0.17.1",
+    "typeorm": "^0.2.16",
+    "typeorm-seeding": "^1.0.0-beta.6"
   },
   "devDependencies": {
+    "@nestjs/testing": "^6.0.0",
     "@types/express": "^4.16.0",
+    "@types/faker": "^4.1.5",
+    "@types/graphql": "^14.2.0",
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
     "@types/supertest": "^2.0.7",
-    "@nestjs/testing": "^6.0.0",
+    "@types/uuid": "^3.4.4",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.15.3",
@@ -44,7 +59,11 @@
     "typescript": "^3.2.4"
   },
   "jest": {
-    "moduleFileExtensions": ["js", "json", "ts"],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
     "rootDir": "src",
     "testRegex": ".spec.ts$",
     "transform": {
