@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:sync": "ts-node ./node_modules/.bin/typeorm schema:sync -c development"
+    "db:sync": "ts-node ./node_modules/.bin/typeorm schema:sync -c development",
+    "db:seed": "ts-node -r tsconfig-paths/register seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^6.0.0",

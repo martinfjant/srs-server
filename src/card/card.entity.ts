@@ -20,10 +20,10 @@ export class Card {
   @PrimaryGeneratedColumn()
   id: number;
   @Field()
-  @Column()
+  @Column({ length: 500 })
   front: string;
   @Field()
-  @Column()
+  @Column({ length: 500 })
   back: string;
   @Field()
   @Column()
