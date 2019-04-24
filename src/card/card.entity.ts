@@ -26,13 +26,13 @@ export class Card {
   @Column({ length: 500 })
   back: string;
   @Field()
-  @Column()
+  @Column({ default: () => 'NOW()' })
   scheduled: Date;
   @Field()
-  @Column()
+  @Column({ default: 2 })
   efactor: number;
   @Field()
-  @Column()
+  @Column({ default: false })
   learned: boolean;
   @Field()
   @CreateDateColumn()

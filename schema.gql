@@ -16,6 +16,19 @@ type Card {
   repetitions: [Repetition!]!
 }
 
+input CardEditInput {
+  front: String
+  back: String
+  scheduled: Date
+}
+
+input CardInput {
+  user: ID
+  front: String
+  back: String
+  scheduled: Date
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -23,11 +36,15 @@ type Mutation {
   addUser(userData: UserInput!): User!
   editUser(id: Float!, userData: UserInput!): User!
   deleteUser(id: Float!): User!
+  addCard(cardData: CardInput!): Card!
+  editCard(cardData: CardEditInput!, id: Float!): Card!
+  deleteCard(id: Float!): Card!
 }
 
 type Query {
   user(id: Int!): User!
-  Cards: [Card!]!
+  cards: [Card!]!
+  card(id: Int!): Card!
   repetitions: [Repetition!]!
 }
 
