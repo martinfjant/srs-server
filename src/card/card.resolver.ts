@@ -1,4 +1,4 @@
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, Mutation } from '@nestjs/graphql';
 import { Card } from './card.entity';
 import { CardService } from './card.service';
 
@@ -7,7 +7,7 @@ export class CardResolver {
   constructor(private readonly cardService: CardService) {}
   @Query(() => [Card])
   async Cards(): Promise<Card[]> {
-    const test = await this.cardService.findAll();
+    const test = await this.cardService.findAll({});
     return test;
   }
 }

@@ -13,3 +13,67 @@ Module based, where all features are organized according to domain. All code rel
 # GraphQL
 
 Using TypeGraphQL makes the schemas really easy to make using decorators on the entity file used for TypeORM.
+
+## Queries
+
+## Mutations
+
+### User
+
+Add user:
+
+```js
+mutation addUser($user: UserInput!){
+  addUser(userData: $user){
+    name,
+    id,
+    createdDate
+  }
+}
+```
+
+With variables:
+
+```json
+{
+  "user": {
+    "name": "Martin",
+    "email": "martin@falkjohansson.se",
+    "password": "mjao"
+  }
+}
+```
+
+Edit user:
+
+```js
+mutation addUser($user: UserInput!){
+  editUser(id: 44, userData: $user){
+    name,
+    id,
+    createdDate
+  }
+}
+```
+
+With variables:
+
+```json
+{
+  "user": {
+    "name": "Hampus",
+    "email": "martin@falkjohansson.se",
+    "password": "mjao"
+  }
+}
+```
+
+Delete user:
+
+```js
+mutation {
+  deleteUser(id: 43){
+    name
+  }
+}
+```

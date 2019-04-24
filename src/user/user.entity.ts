@@ -30,6 +30,6 @@ export class User {
   @CreateDateColumn()
   createdDate: Date;
   @Field(type => Card, { nullable: true })
-  @OneToMany(type => Card, card => card.user)
+  @OneToMany(type => Card, card => card.user, { onDelete: 'CASCADE' })
   cards: Card[];
 }

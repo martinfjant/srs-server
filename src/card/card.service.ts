@@ -10,7 +10,13 @@ export class CardService {
     private readonly cardRepository: Repository<Card>,
   ) {}
 
-  async findAll(): Promise<Card[]> {
-    return await this.cardRepository.find();
+  async findAll(object: object): Promise<Card[]> {
+    return await this.cardRepository.find(object);
+  }
+
+  async create(object: object): Promise<Card> {
+    const card = new Card();
+    const edit = Object.assign({}, card, object);
+    return await this.cardRepository.save(edit);
   }
 }
