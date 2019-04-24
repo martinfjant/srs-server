@@ -7,22 +7,26 @@ type Card {
   id: ID!
   front: String!
   back: String!
-  scheduled: DateTime!
+  scheduled: Date!
   efactor: Float!
   learned: Boolean!
-  createdDate: DateTime!
-  updatedDate: DateTime!
+  createdDate: Date!
+  updatedDate: Date!
   user: User!
   repetitions: [Repetition!]!
 }
 
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
-scalar DateTime
+"""Date custom scalar type"""
+scalar Date
+
+type Mutation {
+  addUser(userData: UserInput!): User!
+  editUser(id: Float!, userData: UserInput!): User!
+  deleteUser(id: Float!): User!
+}
 
 type Query {
-  users: [User!]!
+  user(id: Int!): User!
   Cards: [Card!]!
   repetitions: [Repetition!]!
 }
@@ -37,6 +41,12 @@ type User {
   id: ID!
   name: String
   email: String
-  createdDate: DateTime
+  createdDate: Date
   cards: [Card!]
+}
+
+input UserInput {
+  name: String
+  email: String
+  password: String!
 }
