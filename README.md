@@ -22,7 +22,7 @@ Using TypeGraphQL makes the schemas really easy to make using decorators on the 
 
 Add user:
 
-```
+```js
 mutation addUser($user: UserInput!){
   addUser(userData: $user){
     name,
@@ -34,7 +34,7 @@ mutation addUser($user: UserInput!){
 
 With variables:
 
-```
+```json
 {
   "user": {
     "name": "Martin",
@@ -46,7 +46,7 @@ With variables:
 
 Edit user:
 
-```
+```js
 mutation addUser($user: UserInput!){
   editUser(id: 44, userData: $user){
     name,
@@ -58,7 +58,7 @@ mutation addUser($user: UserInput!){
 
 With variables:
 
-```
+```json
 {
   "user": {
     "name": "Hampus",
@@ -70,7 +70,7 @@ With variables:
 
 Delete user:
 
-```
+```js
 mutation {
   deleteUser(id: 43){
     name
