@@ -8,6 +8,8 @@ import { Connection } from 'typeorm';
 import { CardModule } from './card/card.module';
 import { RepetitionModule } from './repetition/repetition.module';
 import { DateScalar } from './utils/DateScalar';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,9 +18,10 @@ import { DateScalar } from './utils/DateScalar';
     UserModule,
     CardModule,
     RepetitionModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DateScalar],
+  providers: [AppService, DateScalar, AuthService],
 })
 export class AppModule {
   constructor(private readonly connection: Connection) {}
