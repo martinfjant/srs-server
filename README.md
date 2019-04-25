@@ -77,3 +77,76 @@ mutation {
   }
 }
 ```
+
+### Card
+
+Query:
+
+```js
+query {
+  card(id: 5){
+    front,
+    back
+  }
+}
+```
+
+Mutations:
+Add card:
+
+```js
+mutation addCard($card: CardInput!) {
+  addCard(cardData: $card) {
+    front,
+    back,
+    scheduled
+  }
+}
+```
+
+```json
+{
+  "card": {
+    "front": "Martin",
+    "back": "martin@falkjohansson.se",
+    "user": 5
+  }
+}
+```
+
+`sheduled: timestamp` is optional, and will otherwise use the current time.
+
+Edit card:
+
+```js
+mutation addCard($card: CardEditInput!) {
+  editCard(id: 55, cardData: $card) {
+    front,
+    back,
+    id,
+
+  }
+}
+```
+
+Variables:
+
+```
+{
+  "card": {
+"front": "luva"
+  }
+}
+```
+
+front, back and scheduled can be set in any combination.
+
+Delete card:
+
+```js
+mutation {
+  deleteCard(id: 2){
+    id
+  }
+}
+```
