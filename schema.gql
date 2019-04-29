@@ -3,6 +3,11 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input AuthInput {
+  email: String!
+  password: String!
+}
+
 type Card {
   id: ID!
   front: String!

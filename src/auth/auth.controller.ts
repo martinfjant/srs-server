@@ -1,13 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { async } from 'rxjs/internal/scheduler/async';
+import { AuthInput } from './auth.input';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authservice: AuthService) {}
 
-  @Get('token')
-  async createToken(): Promise<any> {
-    return await this.authservice.signIn();
+  @Post('/')
+  async createToken(@Body() body: AuthInput): Promise<any> {
+    return await this.authservice.logIn(body);
   }
 }
