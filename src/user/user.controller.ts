@@ -10,11 +10,13 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('admin'))
   getUser(): Promise<User[]> {
     return this.userService.findAll();
   }
+
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   getUserById(@Param('id') id): Promise<User> {
     return this.userService.findOne(id);
   }
