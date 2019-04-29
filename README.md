@@ -1,6 +1,6 @@
 # SRS Server
 
-Server software for SRS (spaced repetition system) written in TypeScript with Nest.js to be used with Node.
+Server software for SRS (spaced Review system) written in TypeScript with Nest.js to be used with Node.
 
 # Up and running
 

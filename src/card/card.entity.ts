@@ -9,7 +9,7 @@ import {
   ManyToMany,
 } from 'typeorm';
 import { User } from 'src/user/user.entity';
-import { Repetition } from 'src/repetition/repetition.entity';
+import { Review } from 'src/review/review.entity';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { Deck } from './deck.entity';
 
@@ -35,18 +35,18 @@ export class Card {
   @Column({ default: false })
   learned: boolean;
   @Field()
-  @CreateDateColumn()
-  createdDate: Date;
+  @CreateDateColumn({ type: 'timestamptz' })
+  created: Date;
   @Field()
-  @UpdateDateColumn()
-  updatedDate: Date;
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updated: Date;
 
   @Field(type => User)
   @ManyToOne(type => User, user => user.cards)
   user: User;
-  @Field(type => Repetition)
-  @OneToMany(type => Repetition, repetition => repetition.card)
-  repetitions: Repetition[];
+  @Field(type => Review)
+  @OneToMany(type => Review, review => review.card)
+  reviews: Review[];
   @ManyToMany(type => Deck)
   decks: Deck[];
 }

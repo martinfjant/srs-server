@@ -15,7 +15,6 @@ export class AuthResolver {
   async auth(@Args('authData') authData: AuthInput): Promise<Auth> {
     const auth = new Auth();
     auth.token = await this.authService.logIn(authData);
-    console.log(auth);
     return auth;
   }
 }
