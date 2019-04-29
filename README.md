@@ -4,7 +4,7 @@ Server software for SRS (spaced repetition system) written in TypeScript with Ne
 
 # Up and running
 
-Clone the repository, install all the dependencies, and make sure that you change the ormconfig so that you can access to a database (must be postgresql). To start, run `yarn start:dev` To get data into the datavase, run `yarn db:seed`.
+Clone the repository, install all the dependencies. Change the name of example.env to .env and put in PostgresQL-credentials. To start, run `yarn start:dev` To get data into the database, run `yarn db:seed`.
 
 # Structure
 

@@ -3,6 +3,9 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""
+Returns a JSON web token to be used as a bearer token to authorize secured routes and resovers
+"""
 type Auth {
   token: String!
 }
