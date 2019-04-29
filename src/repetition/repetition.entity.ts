@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Card } from 'src/card/card.entity';
 import { ObjectType, Field, ID } from 'type-graphql';
 
-@ObjectType()
+@ObjectType({ description: 'The repetitions associated to a card' })
 @Entity()
 export class Repetition {
   @Field(id => ID)

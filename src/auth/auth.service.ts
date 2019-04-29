@@ -12,8 +12,9 @@ export class AuthService {
   ) {}
 
   async logIn(args: AuthInput): Promise<string> {
-    const user = await this.userService.findByEmail(args.email);
-    if (await argon2.verify(user.password, args.password)) {
+    const { email, password } = await args;
+    const user = await this.userService.findByEmail(email);
+    if (await argon2.verify(user.password, password)) {
       const jwt: JwtPayload = {
         email: user.email,
         role: user.role,

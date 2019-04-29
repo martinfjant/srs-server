@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Auth {
+  token: String!
+}
+
 input AuthInput {
   email: String!
   password: String!
@@ -44,6 +48,7 @@ type Mutation {
   addCard(cardData: CardInput!): Card!
   editCard(cardData: CardEditInput!, id: Float!): Card!
   deleteCard(id: Float!): Card!
+  auth(authData: AuthInput!): Auth!
 }
 
 type Query {
@@ -53,6 +58,7 @@ type Query {
   repetitions: [Repetition!]!
 }
 
+"""The repetitions associated to a card"""
 type Repetition {
   id: ID!
   answer: Float!

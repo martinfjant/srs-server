@@ -150,3 +150,24 @@ mutation {
   }
 }
 ```
+
+### Logging in
+
+```js
+mutation auth($auth: AuthInput!) {
+  auth(authData: $auth) {
+    token
+  }
+}
+```
+
+Variables:
+
+```json
+{
+  "auth": {
+    "email": "Adaline90@yahoo.com",
+    "password": "1234"
+  }
+}
+```
