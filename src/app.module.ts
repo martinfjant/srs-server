@@ -8,17 +8,23 @@ import { Connection } from 'typeorm';
 import { CardModule } from './card/card.module';
 import { RepetitionModule } from './repetition/repetition.module';
 import { DateScalar } from './utils/DateScalar';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
-    GraphQLModule.forRoot({ autoSchemaFile: 'schema.gql' }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: 'schema.gql',
+      context: ({ req }) => ({ req }),
+    }),
     UserModule,
     CardModule,
     RepetitionModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DateScalar],
+  providers: [AppService, DateScalar, AuthService],
 })
 export class AppModule {
   constructor(private readonly connection: Connection) {}

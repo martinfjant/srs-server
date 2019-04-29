@@ -11,8 +11,9 @@ import { User } from './user.entity';
 import { Card } from '../card/card.entity';
 import { UserService } from './user.service';
 import { CardService } from 'src/card/card.service';
-import { Any } from 'typeorm';
 import { UserInput } from './user.input';
+import { GqlAuthGuard } from 'src/auth/gql-auth-guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(of => User)
 export class UserResolver {
@@ -21,6 +22,7 @@ export class UserResolver {
     private readonly cardService: CardService,
   ) {}
   @Query(() => User)
+  @UseGuards(GqlAuthGuard)
   async user(@Args({ name: 'id', type: () => Int }) id: number): Promise<User> {
     return await this.userService.findOne(id);
   }
