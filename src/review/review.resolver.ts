@@ -10,6 +10,7 @@ import { Review } from './review.entity';
 import { ReviewService } from './review.service';
 import { CardService } from 'src/card/card.service';
 import { Card } from 'src/card/card.entity';
+import { ReviewInput } from './review.intut';
 
 @Resolver(of => Review)
 export class ReviewResolver {
@@ -24,7 +25,7 @@ export class ReviewResolver {
   @Mutation(() => Review)
   async addReview(
     @Args('id') id: number,
-    @Args('reviewData') reviewData: Review,
+    @Args('reviewData') reviewData: ReviewInput,
   ): Promise<Review> {
     return await this.reviewService.add(id, reviewData);
   }
@@ -33,9 +34,9 @@ export class ReviewResolver {
     return await this.reviewService.delete(id);
   }
 
-  @ResolveProperty('card')
-  async card(@Parent() review: Review): Promise<Card> {
-    const { id } = review;
-    return await this.cardService.findOne(id);
-  }
+  // @ResolveProperty('card')
+  // async card(@Parent() review: Review): Promise<Card> {
+  //   const { id } = review;
+  //   return await this.cardService.findOne(id);
+  // }
 }
