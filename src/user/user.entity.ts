@@ -5,7 +5,6 @@ import {
   OneToMany,
   CreateDateColumn,
   BeforeInsert,
-  BeforeUpdate,
   UpdateDateColumn,
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
