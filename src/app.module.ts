@@ -25,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
   ],
   controllers: [AppController],
   providers: [AppService, DateScalar, AuthService],
+  exports: [DateScalar],
 })
 export class AppModule {
   constructor(private readonly connection: Connection) {}

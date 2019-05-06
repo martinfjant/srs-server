@@ -7,10 +7,16 @@ import { UserResolver } from './user.resolver';
 import { CardService } from 'src/card/card.service';
 import { CardModule } from 'src/card/card.module';
 import { PassportModule } from '@nestjs/passport';
+import { DateScalar } from 'src/utils/DateScalar';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), CardModule, PassportModule],
-  providers: [UserService, UserResolver, CardService],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    CardModule,
+    PassportModule,
+    DateScalar,
+  ],
+  providers: [UserService, UserResolver, CardService, DateScalar],
   controllers: [UserController],
   exports: [UserService],
 })
