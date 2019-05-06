@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { Card } from 'src/card/card.entity';
@@ -33,8 +34,12 @@ export class User {
   role: 'user' | 'admin';
 
   @Field({ nullable: true })
-  @CreateDateColumn()
-  createdDate: Date;
+  @CreateDateColumn({ type: 'timestamptz' })
+  created: Date;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updated: Date;
+
   @Field(type => Card, { nullable: true })
   @OneToMany(type => Card, card => card.user, { onDelete: 'CASCADE' })
   cards: Card[];

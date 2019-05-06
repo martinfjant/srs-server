@@ -22,10 +22,10 @@ type Card {
   scheduled: Date!
   efactor: Float!
   learned: Boolean!
-  createdDate: Date!
-  updatedDate: Date!
+  created: Date!
+  updated: Date!
   user: User!
-  repetitions: [Repetition!]!
+  reviews: [Review!]!
 }
 
 input CardEditInput {
@@ -58,11 +58,11 @@ type Query {
   user(id: Int!): User!
   cards: [Card!]!
   card(id: Int!): Card!
-  repetitions: [Repetition!]!
+  Reviews: [Review!]!
 }
 
-"""The repetitions associated to a card"""
-type Repetition {
+"""The reviews associated to a card"""
+type Review {
   id: ID!
   answer: Float!
   card: Card!
@@ -72,7 +72,7 @@ type User {
   id: ID!
   name: String
   email: String
-  createdDate: Date
+  created: Date
   cards: [Card!]
 }
 
