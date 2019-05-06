@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from './review.entity';
 import { Repository } from 'typeorm';
 import { sm2 } from './algorithm';
-import { ResolveWithTtlOptions } from 'dns';
 import { CardService } from 'src/card/card.service';
 
 @Injectable()
@@ -38,18 +37,27 @@ export class ReviewService {
     return reviews;
   }
 
-  async add(id: number, reviewData: Review): Promise<void> {
+  async add(id: number, reviewData: Review): Promise<Review> {
     const next = sm2(
       (await this.last(id)).answer,
       (await this.reviews(id)).map(rev => rev.answer),
     );
 
     const now: Date = new Date(Date.now());
-    const scheduled = now.setDate(now.getDate() + next);
+    const scheduled: Date = new Date(now.setDate(now.getDate() + next));
     const card = this.cardService.findOne(id);
-    const newRev = {
+    const newRevData = {
       answer: reviewData.answer,
       card,
     };
+    const newCard = Object.assign({}, card, { scheduled });
+    await this.cardService.edit(id, newCard);
+    const newRev = new Review();
+    const saveRev = Object.assign({}, newRev, newRevData);
+    return await this.reviewRepository.save(saveRev);
+  }
+
+  async delete(id: number) {
+    return await this.reviewRepository.delete(id);
   }
 }
