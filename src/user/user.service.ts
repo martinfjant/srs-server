@@ -11,12 +11,16 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+  async findAll(object?: object): Promise<User[]> {
+    return await this.userRepository.find(object);
   }
 
   async findOne(id: number): Promise<User> {
     return await this.userRepository.findOne(id);
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({ email });
   }
 
   async add(userData: UserInput): Promise<User> {

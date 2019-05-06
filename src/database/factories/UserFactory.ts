@@ -12,6 +12,7 @@ define(User, (faker: typeof Faker, settings: { role: string }) => {
   user.email = email;
   user.name = firstName + ' ' + lastName;
   user.password = '1234';
+  user.role = 'user';
   user.createdDate = date;
   return user;
 });

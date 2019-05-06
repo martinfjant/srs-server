@@ -6,9 +6,10 @@ import { User } from './user.entity';
 import { UserResolver } from './user.resolver';
 import { CardService } from 'src/card/card.service';
 import { CardModule } from 'src/card/card.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), CardModule],
+  imports: [TypeOrmModule.forFeature([User]), CardModule, PassportModule],
   providers: [UserService, UserResolver, CardService],
   controllers: [UserController],
   exports: [UserService],
