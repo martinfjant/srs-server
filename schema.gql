@@ -51,6 +51,8 @@ type Mutation {
   addCard(cardData: CardInput!): Card!
   editCard(cardData: CardEditInput!, id: Float!): Card!
   deleteCard(id: Float!): Card!
+  addReview(reviewData: ReviewInput!, id: Float!): Review!
+  deleteReview(id: Float!): Review!
   auth(authData: AuthInput!): Auth!
 }
 
@@ -58,7 +60,7 @@ type Query {
   user(id: Int!): User!
   cards: [Card!]!
   card(id: Int!): Card!
-  Reviews: [Review!]!
+  reviews(id: Float!): [Review!]!
 }
 
 """The reviews associated to a card"""
@@ -66,6 +68,11 @@ type Review {
   id: ID!
   answer: Float!
   card: Card!
+}
+
+input ReviewInput {
+  answer: Float!
+  card: Float!
 }
 
 type User {

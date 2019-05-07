@@ -10,7 +10,8 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "lib": ["esnext.asynciterable", "es2015", "dom", "es2017"],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "node"
   },
   "exclude": ["node_modules"]
 }
