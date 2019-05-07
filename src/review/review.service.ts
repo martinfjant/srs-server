@@ -4,6 +4,7 @@ import { Review } from './review.entity';
 import { Repository } from 'typeorm';
 import { sm2 } from './algorithm';
 import { CardService } from 'src/card/card.service';
+import { ReviewInput } from './review.intut';
 
 @Injectable()
 export class ReviewService {
@@ -37,7 +38,7 @@ export class ReviewService {
     return reviews;
   }
 
-  async add(id: number, reviewData: Review): Promise<Review> {
+  async add(id: number, reviewData: ReviewInput): Promise<Review> {
     const next = sm2(
       (await this.last(id)).answer,
       (await this.reviews(id)).map(rev => rev.answer),
