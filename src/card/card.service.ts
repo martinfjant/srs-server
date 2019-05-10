@@ -19,20 +19,14 @@ export class CardService {
   }
   async add(cardData: CardInput): Promise<Card> {
     const card = new Card();
-    const foo = Object.assign({}, card, cardData);
-    return await this.cardRepository.save(foo);
+    const newCard = Object.assign({}, card, cardData);
+    return await this.cardRepository.save(newCard);
   }
   async edit(id: any, cardData: CardEditInput): Promise<Card> {
     const card = await this.cardRepository.findOne({ id });
-    /* Because there is, I presume, some odd bug that refuse .merge to take cardData as is,
-      I've mashed it together whith a new Card instance, and it worked. However, this is ugly,
-      and imho it should've worked anyway....
-      This might be possible to make look les sugly bu using the .create() method
-      from the repository, and then mergin that what has been created, or maybe by
-      using update? I might just suck at sql.. */
     const cardObject = new Card();
-    const fuck = Object.assign({}, cardObject, cardData); // I was mad, ok?
-    this.cardRepository.merge(card, fuck);
+    const editCard = Object.assign({}, cardObject, cardData); // I was mad, ok?
+    this.cardRepository.merge(card, editCard);
     return await this.cardRepository.save(card);
   }
 
