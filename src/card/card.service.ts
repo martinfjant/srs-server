@@ -1,14 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Card } from './card.entity';
 import { CardInput } from './card.input';
 import { CardEditInput } from './cardEdit.input';
+import { UserService } from 'src/user/user.service';
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card)
     private readonly cardRepository: Repository<Card>,
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService,
   ) {}
 
   async findAll(object: object): Promise<Card[]> {
@@ -33,5 +36,18 @@ export class CardService {
   async delete(id: number): Promise<boolean> {
     await this.cardRepository.delete(id);
     return true;
+  }
+
+  async user(userId: number): Promise<Card[]> {
+    const user = await this.userService.findOne(userId);
+    return await this.cardRepository.find({ user });
+  }
+
+  async scheduled(userId: number): Promise<Card[]> {
+    return await this.cardRepository
+      .createQueryBuilder('card')
+      .where('card."userId" = :id', { id: userId })
+      .andWhere('card."scheduled" < CURRENT_DATE')
+      .getMany();
   }
 }
