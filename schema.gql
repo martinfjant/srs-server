@@ -34,8 +34,11 @@ input CardEditInput {
   scheduled: Date
 }
 
+"""
+Data for creation and edit of card, owner, front, back. Scheduling only for creation
+"""
 input CardInput {
-  user: ID
+  user: ID!
   front: String
   back: String
   scheduled: Date
@@ -58,8 +61,9 @@ type Mutation {
 
 type Query {
   user(id: Int!): User!
-  cards: [Card!]!
+  cards(id: Int!): [Card!]!
   card(id: Int!): Card!
+  due(id: Int!): [Card!]!
   reviews(id: Float!): [Review!]!
 }
 
@@ -70,9 +74,10 @@ type Review {
   card: Card!
 }
 
+"""Values for review as number and id of related card"""
 input ReviewInput {
   answer: Float!
-  card: Float!
+  card: ID!
 }
 
 type User {

@@ -1,7 +1,8 @@
 import { InputType, Field } from 'type-graphql';
+import { User } from './user.entity';
 
 @InputType()
-export class UserInput {
+export class UserInput implements Partial<User> {
   @Field({ nullable: true })
   readonly name: string;
 
