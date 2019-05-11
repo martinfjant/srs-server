@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { UserInput } from './user.input';
+import { Card } from 'src/card/card.entity';
+import { CardService } from 'src/card/card.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly cardService: CardService,
   ) {}
 
   async findAll(object?: object): Promise<User[]> {

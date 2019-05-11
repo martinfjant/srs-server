@@ -28,11 +28,13 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  @UseGuards(GqlAuthGuard)
   async addUser(@Args('userData') userData: UserInput) {
     return await this.userService.add(userData);
   }
 
   @Mutation(() => User)
+  @UseGuards(GqlAuthGuard)
   async editUser(
     @Args('userData') userData: UserInput,
     @Args('id') id: number,
@@ -41,6 +43,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  @UseGuards(GqlAuthGuard)
   async deleteUser(@Args('id') id: number) {
     return await this.userService.delete(id);
   }

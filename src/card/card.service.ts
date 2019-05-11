@@ -1,14 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Card } from './card.entity';
 import { CardInput } from './card.input';
 import { CardEditInput } from './cardEdit.input';
+import { UserService } from 'src/user/user.service';
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card)
     private readonly cardRepository: Repository<Card>,
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService,
   ) {}
 
   async findAll(object: object): Promise<Card[]> {
@@ -19,25 +22,32 @@ export class CardService {
   }
   async add(cardData: CardInput): Promise<Card> {
     const card = new Card();
-    const foo = Object.assign({}, card, cardData);
-    return await this.cardRepository.save(foo);
+    const newCard = Object.assign({}, card, cardData);
+    return await this.cardRepository.save(newCard);
   }
   async edit(id: any, cardData: CardEditInput): Promise<Card> {
     const card = await this.cardRepository.findOne({ id });
-    /* Because there is, I presume, some odd bug that refuse .merge to take cardData as is,
-      I've mashed it together whith a new Card instance, and it worked. However, this is ugly,
-      and imho it should've worked anyway....
-      This might be possible to make look les sugly bu using the .create() method
-      from the repository, and then mergin that what has been created, or maybe by
-      using update? I might just suck at sql.. */
     const cardObject = new Card();
-    const fuck = Object.assign({}, cardObject, cardData); // I was mad, ok?
-    this.cardRepository.merge(card, fuck);
+    const editCard = Object.assign({}, cardObject, cardData); // I was mad, ok?
+    this.cardRepository.merge(card, editCard);
     return await this.cardRepository.save(card);
   }
 
   async delete(id: number): Promise<boolean> {
     await this.cardRepository.delete(id);
     return true;
+  }
+
+  async user(userId: number): Promise<Card[]> {
+    const user = await this.userService.findOne(userId);
+    return await this.cardRepository.find({ user });
+  }
+
+  async scheduled(userId: number): Promise<Card[]> {
+    return await this.cardRepository
+      .createQueryBuilder('card')
+      .where('card."userId" = :id', { id: userId })
+      .andWhere('card."scheduled" < CURRENT_DATE')
+      .getMany();
   }
 }

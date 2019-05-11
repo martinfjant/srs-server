@@ -1,16 +1,10 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  ResolveProperty,
-  Parent,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Review } from './review.entity';
 import { ReviewService } from './review.service';
 import { CardService } from 'src/card/card.service';
-import { Card } from 'src/card/card.entity';
 import { ReviewInput } from './review.intut';
+import { GqlAuthGuard } from 'src/auth/gql-auth-guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(of => Review)
 export class ReviewResolver {
@@ -19,10 +13,12 @@ export class ReviewResolver {
     private readonly cardService: CardService,
   ) {}
   @Query(() => [Review])
+  @UseGuards(GqlAuthGuard)
   async reviews(@Args('id') id: number): Promise<Review[]> {
     return await this.reviewService.reviews(id);
   }
   @Mutation(() => Review)
+  @UseGuards(GqlAuthGuard)
   async addReview(
     @Args('id') id: number,
     @Args('reviewData') reviewData: ReviewInput,
@@ -30,13 +26,8 @@ export class ReviewResolver {
     return await this.reviewService.add(id, reviewData);
   }
   @Mutation(() => Review)
+  @UseGuards(GqlAuthGuard)
   async deleteReview(@Args('id') id: number): Promise<any> {
     return await this.reviewService.delete(id);
   }
-
-  // @ResolveProperty('card')
-  // async card(@Parent() review: Review): Promise<Card> {
-  //   const { id } = review;
-  //   return await this.cardService.findOne(id);
-  // }
 }
