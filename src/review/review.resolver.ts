@@ -28,7 +28,8 @@ export class ReviewResolver {
     @Args('id') id: number,
     @Args('reviewData') reviewData: ReviewInput,
   ): Promise<Review> {
-    return await this.reviewService.add(id, reviewData);
+    const res = await this.reviewService.add(id, reviewData);
+    return res;
   }
 
   @Mutation(() => Review)

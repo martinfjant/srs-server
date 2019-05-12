@@ -20,7 +20,7 @@ export class ReviewService {
     return await this.reviewRepository.find();
   }
 
-  async last(cardId: number): Promise<Review> {
+  public async last(cardId: number): Promise<any> {
     console.log('Access review');
     const review = await this.reviewRepository
       .createQueryBuilder('review')
@@ -31,7 +31,7 @@ export class ReviewService {
     return review;
   }
 
-  async reviews(cardId: number): Promise<Review[]> {
+  public async reviews(cardId: number): Promise<any> {
     console.log('Access reviews');
     const reviews = await this.reviewRepository
       .createQueryBuilder('review')
@@ -42,29 +42,29 @@ export class ReviewService {
     return reviews;
   }
 
-  async add(id: number, reviewData: ReviewInput): Promise<Review> {
+  public async add(id: number, reviewData: ReviewInput): Promise<any> {
     try {
-      console.log('try');
-      console.log(await this.last(id));
+      const last = await this.last(id);
+      const all = await this.reviews(id);
+      // const array = all.map(rev => rev.answer);
+      const array = [1, 2, 2, 2, 3];
+      const next = sm2(last.answer, array);
+      const now: Date = new Date(Date.now());
+      const scheduled: Date = new Date(now.setDate(now.getDate() + next));
+      const card = await this.cardService.findOne(id);
+      const newRevData = {
+        answer: reviewData.answer,
+        card,
+      };
+      const newCard = Object.assign({}, card, { scheduled });
+      await this.cardService.edit(id, newCard);
+      const newRev = new Review();
+      const saveRev = Object.assign({}, newRev, newRevData);
+      const res = await this.reviewRepository.save(saveRev);
+      return res;
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
-    const last = await this.last(id);
-    const all = await this.reviews(id);
-    const array = all.map(rev => rev.answer);
-    const next = sm2(last.answer, array);
-    const now: Date = new Date(Date.now());
-    const scheduled: Date = new Date(now.setDate(now.getDate() + next));
-    const card = await this.cardService.findOne(id);
-    const newRevData = {
-      answer: reviewData.answer,
-      card,
-    };
-    const newCard = Object.assign({}, card, { scheduled });
-    await this.cardService.edit(id, newCard);
-    const newRev = new Review();
-    const saveRev = Object.assign({}, newRev, newRevData);
-    return await this.reviewRepository.save(saveRev);
   }
 
   async delete(id: number) {
