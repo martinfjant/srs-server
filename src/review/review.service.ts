@@ -20,43 +20,52 @@ export class ReviewService {
     return await this.reviewRepository.find();
   }
 
-  async last(cardId: number): Promise<Review> {
+  public async last(cardId: number): Promise<Review> {
     const review = await this.reviewRepository
       .createQueryBuilder('review')
-      .where('review.id = :id', { id: cardId })
-      .orderBy('createdDate', 'DESC')
-      .limit(1)
+      .where('review."cardId" = :id', { id: cardId })
+      .orderBy('review.created', 'DESC')
       .getOne();
     return review;
   }
 
-  async reviews(cardId: number): Promise<Review[]> {
+  public async reviews(cardId: number): Promise<Review[]> {
     const reviews = await this.reviewRepository
       .createQueryBuilder('review')
-      .where('review.id = :id', { id: cardId })
-      .orderBy('createdDate', 'DESC')
+      .where('review."cardId" = :id', { id: cardId })
+      .orderBy('review.created', 'DESC')
       .getMany();
     return reviews;
   }
 
-  async add(id: number, reviewData: ReviewInput): Promise<Review> {
-    const next = sm2(
-      (await this.last(id)).answer,
-      (await this.reviews(id)).map(rev => rev.answer),
-    );
-
+  public async add(id: number, reviewData: ReviewInput): Promise<any> {
+    /* Resolve an array of reviews, so that we can map over them */
+    const all = await this.reviews(id);
+    const last = reviewData.answer;
+    /* Send last answer, and an array of all previous answers into sm2 */
+    /* But check both for inexistance! */
+    /* Returns amount of days until next review */
+    const next = sm2(last, all.map(rev => (!rev ? 1 : rev.answer)));
+    /* Create a date, that is actually an instance of the Date object */
     const now: Date = new Date(Date.now());
+    /* Create a date that is next days after now */
     const scheduled: Date = new Date(now.setDate(now.getDate() + next));
-    const card = this.cardService.findOne(id);
+    /* Get card for relation, create new review post to inser in DB */
+    const card = await this.cardService.findOne(id);
     const newRevData = {
       answer: reviewData.answer,
       card,
     };
+    /* Create new instance of card for updating scheduled property*/
     const newCard = Object.assign({}, card, { scheduled });
+    /* Editt he card in Db */
     await this.cardService.edit(id, newCard);
+    /* Create new review instance, smash in the previously created review */
     const newRev = new Review();
     const saveRev = Object.assign({}, newRev, newRevData);
-    return await this.reviewRepository.save(saveRev);
+    /*Save!*/
+    const res = await this.reviewRepository.save(saveRev);
+    return res;
   }
 
   async delete(id: number) {

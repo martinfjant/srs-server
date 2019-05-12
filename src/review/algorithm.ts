@@ -7,6 +7,7 @@ export const sm2 = (
   d = 0.02,
   theta = 0.2,
 ) => {
+  console.log('Now running sm2');
   if (answer < 4) {
     return 1;
   }

@@ -1,22 +1,20 @@
-# SRS Server
+# SRS-Server
 
 Server software for SRS (spaced Review system) written in TypeScript with Nest.js to be used with Node.
 
-# Up and running
+## Up and running
 
-Clone the repository, install all the dependencies. Change the name of example.env to .env and put in PostgresQL-credentials. To start, run `yarn start:dev` To get data into the database, run `yarn db:seed`.
+Clone the repository, install all the dependencies. Change the name of example.env to .env and put in PostgresQL-credentials. To start, run `yarn start:dev` To get data into the database, run `yarn db:seed`. The database seed is limited to ten users and one card for each user.
 
 # Structure
 
 Module based, where all features are organized according to domain. All code relating to the user is in /user, all code relating to cards are in /card.
 
-# GraphQL
+## GraphQL
 
 Using TypeGraphQL makes the schemas really easy to make using decorators on the entity file used for TypeORM.
 
-## Queries
-
-## Mutations
+## API
 
 ### User
 
@@ -38,8 +36,8 @@ With variables:
 {
   "user": {
     "name": "Martin",
-    "email": "martin@falkjohansson.se",
-    "password": "mjao"
+    "email": "email@email.se",
+    "password": "ketchup"
   }
 }
 ```
@@ -61,9 +59,9 @@ With variables:
 ```json
 {
   "user": {
-    "name": "Hampus",
-    "email": "martin@falkjohansson.se",
-    "password": "mjao"
+    "name": "Bunny",
+    "email": "bunny@hare.com",
+    "password": "pyaa"
   }
 }
 ```
@@ -114,7 +112,7 @@ mutation addCard($card: CardInput!) {
 }
 ```
 
-`sheduled: timestamp` is optional, and will otherwise use the current time.
+`sheduled: timestamp` is optional, and will otherwise use the current time. It's in the dto to fascilitate rescheduling.
 
 Edit card:
 
@@ -169,5 +167,32 @@ Variables:
     "email": "Adaline90@yahoo.com",
     "password": "1234"
   }
+}
+```
+
+### Review
+
+Mutation:
+
+```js
+mutation ($reviewData: ReviewInput!, $id: Float!) {
+    addReview(
+      reviewData: $reviewData,
+      id: $id
+      ){
+        id
+        }
+}
+```
+
+Variables:
+
+```json
+{
+  "reviewData": {
+    "answer": 2,
+    "card": 1
+  },
+  "id": 1
 }
 ```
