@@ -5,6 +5,8 @@ import { Card } from './card.entity';
 import { CardInput } from './card.input';
 import { CardEditInput } from './cardEdit.input';
 import { UserService } from 'src/user/user.service';
+import getToken from 'src/utils/getToken';
+import { AuthService } from 'src/auth/auth.service';
 @Injectable()
 export class CardService {
   constructor(
@@ -12,6 +14,8 @@ export class CardService {
     private readonly cardRepository: Repository<Card>,
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
   ) {}
 
   async findAll(object: object): Promise<Card[]> {
@@ -38,15 +42,18 @@ export class CardService {
     return true;
   }
 
-  async user(userId: number): Promise<Card[]> {
-    const user = await this.userService.findOne(userId);
+  async user(ctx): Promise<Card[]> {
+    const token = getToken(ctx);
+    const user = await this.authService.getUser(token);
     return await this.cardRepository.find({ user });
   }
 
-  async scheduled(userId: number): Promise<Card[]> {
+  async scheduled(ctx): Promise<Card[]> {
+    const token = getToken(ctx);
+    const { id } = await this.authService.getUser(token);
     return await this.cardRepository
       .createQueryBuilder('card')
-      .where('card."userId" = :id', { id: userId })
+      .where('card."userId" = :id', { id })
       .andWhere('card."scheduled" < CURRENT_DATE')
       .getMany();
   }

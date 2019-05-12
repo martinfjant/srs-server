@@ -61,10 +61,12 @@ type Mutation {
 
 type Query {
   user(id: Int!): User!
-  cards(id: Int!): [Card!]!
+  cards: [Card!]!
   card(id: Int!): Card!
-  due(id: Int!): [Card!]!
+  due: [Card!]!
   reviews(id: Float!): [Review!]!
+  review(id: Float!): Review!
+  me: User!
 }
 
 """The reviews associated to a card"""

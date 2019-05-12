@@ -21,33 +21,41 @@ export class ReviewService {
   }
 
   async last(cardId: number): Promise<Review> {
+    console.log('Access review');
     const review = await this.reviewRepository
       .createQueryBuilder('review')
       .where('review.id = :id', { id: cardId })
-      .orderBy('createdDate', 'DESC')
-      .limit(1)
+      .orderBy('review.created', 'DESC')
       .getOne();
+    console.log(review); /*returnerar undefined*/
     return review;
   }
 
   async reviews(cardId: number): Promise<Review[]> {
+    console.log('Access reviews');
     const reviews = await this.reviewRepository
       .createQueryBuilder('review')
       .where('review.id = :id', { id: cardId })
-      .orderBy('createdDate', 'DESC')
+      .orderBy('review.created', 'DESC')
       .getMany();
+    console.log(reviews); /*returnerar undefined*/
     return reviews;
   }
 
   async add(id: number, reviewData: ReviewInput): Promise<Review> {
-    const next = sm2(
-      (await this.last(id)).answer,
-      (await this.reviews(id)).map(rev => rev.answer),
-    );
-
+    try {
+      console.log('try');
+      console.log(await this.last(id));
+    } catch (e) {
+      console.log(e);
+    }
+    const last = await this.last(id);
+    const all = await this.reviews(id);
+    const array = all.map(rev => rev.answer);
+    const next = sm2(last.answer, array);
     const now: Date = new Date(Date.now());
     const scheduled: Date = new Date(now.setDate(now.getDate() + next));
-    const card = this.cardService.findOne(id);
+    const card = await this.cardService.findOne(id);
     const newRevData = {
       answer: reviewData.answer,
       card,

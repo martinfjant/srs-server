@@ -5,18 +5,21 @@ import {
   Args,
   ResolveProperty,
   Parent,
+  Context,
 } from '@nestjs/graphql';
 import { Card } from './card.entity';
 import { CardService } from './card.service';
 
-import { Int, Arg } from 'type-graphql';
+import { Int } from 'type-graphql';
 import { CardInput } from './card.input';
 import { CardEditInput } from './cardEdit.input';
 import { Review } from 'src/review/review.entity';
 import { ReviewService } from 'src/review/review.service';
-import { Inject, forwardRef } from '@nestjs/common';
+import { Inject, forwardRef, Req } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/gql-auth-guard';
 import { UseGuards } from '@nestjs/common';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import getToken from '../utils/getToken';
 
 @Resolver(of => Card)
 export class CardResolver {
@@ -27,10 +30,8 @@ export class CardResolver {
   ) {}
   @Query(() => [Card])
   @UseGuards(GqlAuthGuard)
-  async cards(
-    @Args({ name: 'id', type: () => Int }) id: number,
-  ): Promise<Card[]> {
-    return await this.cardService.user(id);
+  async cards(@Context() ctx: any): Promise<Card[]> {
+    return await this.cardService.user(ctx);
   }
   @Query(() => Card)
   @UseGuards(GqlAuthGuard)
@@ -39,10 +40,8 @@ export class CardResolver {
   }
   @Query(() => [Card])
   @UseGuards(GqlAuthGuard)
-  async due(
-    @Args({ name: 'id', type: () => Int }) id: number,
-  ): Promise<Card[]> {
-    return await this.cardService.scheduled(id);
+  async due(@Context() ctx: any): Promise<Card[]> {
+    return await this.cardService.scheduled(ctx);
   }
   @Mutation(() => Card)
   @UseGuards(GqlAuthGuard)

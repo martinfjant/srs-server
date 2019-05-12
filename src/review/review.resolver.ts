@@ -17,6 +17,11 @@ export class ReviewResolver {
   async reviews(@Args('id') id: number): Promise<Review[]> {
     return await this.reviewService.reviews(id);
   }
+  @Query(() => Review)
+  @UseGuards(GqlAuthGuard)
+  async review(@Args('id') id: number): Promise<Review> {
+    return await this.reviewService.last(id);
+  }
   @Mutation(() => Review)
   @UseGuards(GqlAuthGuard)
   async addReview(
@@ -25,6 +30,7 @@ export class ReviewResolver {
   ): Promise<Review> {
     return await this.reviewService.add(id, reviewData);
   }
+
   @Mutation(() => Review)
   @UseGuards(GqlAuthGuard)
   async deleteReview(@Args('id') id: number): Promise<any> {
