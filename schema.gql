@@ -34,6 +34,9 @@ input CardEditInput {
   scheduled: Date
 }
 
+"""
+Data for creation and edit of card, owner, front, back. Scheduling only for creation
+"""
 input CardInput {
   user: ID
   front: String
@@ -60,7 +63,10 @@ type Query {
   user(id: Int!): User!
   cards: [Card!]!
   card(id: Int!): Card!
+  due: [Card!]!
   reviews(id: Float!): [Review!]!
+  review(id: Float!): Review!
+  me: User!
 }
 
 """The reviews associated to a card"""
@@ -70,9 +76,10 @@ type Review {
   card: Card!
 }
 
+"""Values for review as number and id of related card"""
 input ReviewInput {
   answer: Float!
-  card: Float!
+  card: ID!
 }
 
 type User {
