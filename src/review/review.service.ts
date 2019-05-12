@@ -41,9 +41,11 @@ export class ReviewService {
   public async add(id: number, reviewData: ReviewInput): Promise<any> {
     /* Resolve an array of reviews, so that we can map over them */
     const all = await this.reviews(id);
+    const last = reviewData.answer;
     /* Send last answer, and an array of all previous answers into sm2 */
+    /* But check both for inexistance! */
     /* Returns amount of days until next review */
-    const next = sm2((await this.last(id)).answer, all.map(rev => rev.answer));
+    const next = sm2(last, all.map(rev => (!rev ? 1 : rev.answer)));
     /* Create a date, that is actually an instance of the Date object */
     const now: Date = new Date(Date.now());
     /* Create a date that is next days after now */
