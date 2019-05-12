@@ -45,8 +45,8 @@ export class CardResolver {
   }
   @Mutation(() => Card)
   @UseGuards(GqlAuthGuard)
-  async addCard(@Args('cardData') cardData: CardInput) {
-    return await this.cardService.add(cardData);
+  async addCard(@Args('cardData') cardData: CardInput, @Context() ctx: any) {
+    return await this.cardService.add(cardData, ctx);
   }
   @Mutation(() => Card)
   @UseGuards(GqlAuthGuard)

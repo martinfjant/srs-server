@@ -7,8 +7,8 @@ import { Card } from './card.entity';
     'Data for creation and edit of card, owner, front, back. Scheduling only for creation',
 })
 export class CardInput implements Partial<Card> {
-  @Field(type => ID)
-  user: User;
+  @Field(type => ID, { nullable: true })
+  user?: User;
 
   @Field({ nullable: true })
   front: string;

@@ -24,8 +24,11 @@ export class CardService {
   async findOne(id: number): Promise<Card> {
     return await this.cardRepository.findOne(id);
   }
-  async add(cardData: CardInput): Promise<Card> {
+  async add(cardData: CardInput, ctx): Promise<Card> {
+    const token = getToken(ctx);
+    const user = await this.authService.getUser(token);
     const card = new Card();
+    cardData.user = user;
     const newCard = Object.assign({}, card, cardData);
     return await this.cardRepository.save(newCard);
   }

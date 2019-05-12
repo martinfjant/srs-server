@@ -38,7 +38,7 @@ input CardEditInput {
 Data for creation and edit of card, owner, front, back. Scheduling only for creation
 """
 input CardInput {
-  user: ID!
+  user: ID
   front: String
   back: String
   scheduled: Date
